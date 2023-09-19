@@ -5,7 +5,7 @@ export default async function Home() {
   return (
     <>
       <header>
-        <h1>Authentication Page</h1>
+        <h1>Welcome Page</h1>
       </header>
       {session?.user?.name ? (
         <div>{session.user.name}</div>

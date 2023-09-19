@@ -2,8 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { getServerSession } from "next-auth";
-import SessionProvider from "./components/SessionProvider";
-import NavMenu from "./components/NavMenu";
+import SessionProvider from "./common/SessionProvider";
+import NavMenu from "./common/NavMenu";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,8 +21,8 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider session={session}>
-          {children}
           <NavMenu />
+          {children}
         </SessionProvider>
       </body>
     </html>
