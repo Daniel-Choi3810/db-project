@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -7,7 +8,6 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { signIn, signOut, useSession } from "next-auth/react";
-import React from "react";
 
 export function AuthText() {
   const { data: session } = useSession();
@@ -33,18 +33,25 @@ export function AuthText() {
 
 export default function DropDown() {
   const { data: session } = useSession();
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>Profile</DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>
-          {session ? session.user?.name : "Signed Out"}
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={session ? () => signOut() : () => signIn()}>
-          {session ? <h1>Sign Out</h1> : <h1>Sign In</h1>}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="default">Profile</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>
+            {session ? session.user?.name : "Signed Out"}
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={session ? () => signOut() : () => signIn()}
+          >
+            {session ? <h1>Sign Out</h1> : <h1>Sign In</h1>}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }

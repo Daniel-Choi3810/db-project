@@ -12,14 +12,21 @@ import {
 } from "@/components/ui/navigation-menu";
 
 import Link from "next/link";
-
 import DropDown from "./DropDown";
 
 export default function NavMenu() {
   return (
     <>
-      <NavigationMenu className="mt-2">
+      <NavigationMenu className="my-1">
         <NavigationMenuList>
+          <NavigationMenuItem>
+            <Link href="/">
+              <h1 className="font-bold p-4">Foot Stomp</h1>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <DropDown />
+          </NavigationMenuItem>
           <NavigationMenuItem>
             <Link href="/jobs" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -33,11 +40,6 @@ export default function NavMenu() {
                 My Jobs
               </NavigationMenuLink>
             </Link>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <DropDown />
-            </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
