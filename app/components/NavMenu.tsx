@@ -11,7 +11,6 @@ function AuthButton() {
     <>
       {session ? (
         <div>
-          {session.user?.name} <br />
           <button
             onClick={() => {
               signOut();
@@ -22,8 +21,6 @@ function AuthButton() {
         </div>
       ) : (
         <div>
-          Not signed in
-          <br />
           <GoogleButton onClick={() => signIn()} />
         </div>
       )}
