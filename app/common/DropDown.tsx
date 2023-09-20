@@ -1,7 +1,7 @@
 "use client";
 
 import { Session } from "next-auth";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 
 interface Props {
   session: Session | null;

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import DropDown from "./DropDown";
 import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 export default function NavMenu() {
   const { data: session } = useSession();
 
@@ -41,12 +42,11 @@ export default function NavMenu() {
                 <summary>Profile</summary>
                 <ul className="p-2">
                   <li>
-                    <h1 className="font-bold">{session?.user?.name}</h1>
+                    <h1 className="font-bold">
+                      {session ? session?.user?.name : "Guest"}
+                    </h1>
                   </li>
                   <hr />
-                  <li>
-                    <DropDown session={session} />
-                  </li>
                   <li>
                     <a>Submenu 2</a>
                   </li>
@@ -59,7 +59,9 @@ export default function NavMenu() {
           </ul>
         </div>
         <div className="navbar-end">
-          <a className="btn ">Button</a>
+          <Button className="btn ">
+            <DropDown session={session} />
+          </Button>
         </div>
       </div>
       <hr />
