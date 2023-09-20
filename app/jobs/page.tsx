@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import React from "react";
+import NavMenu from "../common/NavMenu";
 
 export default async function Jobs() {
   const session = await getServerSession();
