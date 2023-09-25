@@ -1,4 +1,17 @@
 {
+  "baseUrl": ".",
+"paths": {
+    "controllers/*": [ "./controllers/*" ],
+    "helpers/*": [ "./helpers/*" ],
+    "utils/*": [ "./utils/*" ],
+    "components/*": [ "./components/*" ],
+    "interfaces/*": [ "./interfaces/*" ],
+    "middlewares/*": [ "./middlewares/*" ],
+    "models/*": [ "./models/*" ],
+    "routes/*": [ "./routes/*" ],
+    "services/*": [ "./services/*" ],
+    "validations/*": [ "./validations/*" ]
+},
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

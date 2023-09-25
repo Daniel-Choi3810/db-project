@@ -7,21 +7,29 @@ interface Props {
   session: Session | null;
 }
 
-export default function DropDown({ session }: Props) {
+export default function AuthText({ session }: Props) {
   return (
     <>
       {session ? (
         <div>
           <h1
-            onClick={() => {
-              signOut();
+            onClick={async () => {
+              await signOut();
             }}
           >
             Sign Out
           </h1>
         </div>
       ) : (
-        <div onClick={() => signIn()}> Sign In</div>
+        <div
+          onClick={async () => {
+            console.log("SIGN IN");
+            await signIn();
+          }}
+        >
+          {" "}
+          Sign In
+        </div>
       )}
     </>
   );

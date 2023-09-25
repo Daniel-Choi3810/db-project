@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
-import DropDown from "./DropDown";
+import AuthText from "./AuthText";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { signUp } from "@/app/actions/users/signUp";
 export default function NavMenu() {
   const { data: session } = useSession();
 
@@ -27,6 +28,35 @@ export default function NavMenu() {
                 />
               </svg>
             </label>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <ul className="p-2 bg-white">
+                <li>
+                  <Link href="/jobs">Jobs</Link>
+                </li>
+                <li tabIndex={0}>
+                  <details>
+                    <summary>Profile</summary>
+                    <ul className="p-2">
+                      <li>
+                        <h1 className="font-bold">
+                          {session ? session?.user?.email : "Guest"}
+                        </h1>
+                      </li>
+                      <hr />
+                      <li>
+                        <a>Submenu 2</a>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+                <li>
+                  <Link href="/myjobs">My Jobs</Link>
+                </li>
+              </ul>
+            </ul>
           </div>
           <Link href="/" className="btn btn-ghost normal-case text-xl">
             FootStomp
@@ -43,7 +73,7 @@ export default function NavMenu() {
                 <ul className="p-2">
                   <li>
                     <h1 className="font-bold">
-                      {session ? session?.user?.name : "Guest"}
+                      {session ? session?.user?.email : "Guest"}
                     </h1>
                   </li>
                   <hr />
@@ -59,8 +89,13 @@ export default function NavMenu() {
           </ul>
         </div>
         <div className="navbar-end">
+          {!session && (
+            <Button className="btn">
+              <Link href="/auth/signup">Sign Up</Link>
+            </Button>
+          )}
           <Button className="btn ">
-            <DropDown session={session} />
+            <AuthText session={session} />
           </Button>
         </div>
       </div>
