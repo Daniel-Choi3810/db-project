@@ -1,31 +1,66 @@
-'use client';
+"use client";
 
-import { signUp } from '@/app/actions/users/signUp';
-import React, { useState } from 'react';
+import { signUp } from "@/app/actions/users/signUp";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const SignUpForm = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
+  const { status } = useSession();
 
-    const handleSubmit = async () => {
-        setMessage("Signing up...");
-        const message = await signUp(email, password);
-        setMessage(message);
-    };
-    
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.refresh();
+      router.push("/");
+    }
+  }, [status]);
 
-    return (
-        <div className='flex flex-col gap-4 bg-gray-400 p-4'>
-            <input type='text' value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+  const router = useRouter();
 
-            <button onClick={handleSubmit}>Sign up</button>
+  const handleSubmit = async () => {
+    setMessage("Signing up...");
+    await signUp(email, password);
+    try {
+      const signInResponse = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
 
-            <p>{message}</p>
-        </div>
-    );
+      if (!signInResponse || signInResponse.ok !== true) {
+        setMessage("Invalid credentials");
+      } else {
+        router.refresh();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    setMessage(message);
+  };
+
+  return (
+    <div className="flex flex-col gap-4 bg-gray-400 p-4">
+      <input
+        type="text"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <button onClick={handleSubmit}>Sign up</button>
+
+      <p>{message}</p>
+    </div>
+  );
 };
 
 export default SignUpForm;
