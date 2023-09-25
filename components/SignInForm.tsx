@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const SignInForm = () => {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const { status } = useSession();
 
@@ -17,7 +15,6 @@ const SignInForm = () => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    console.log(searchParams);
     if (status === "authenticated") {
       router.refresh();
       router.push("/");
