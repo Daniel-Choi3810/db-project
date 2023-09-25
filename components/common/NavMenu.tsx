@@ -3,7 +3,6 @@ import Link from "next/link";
 import AuthText from "./AuthText";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { signUp } from "@/app/actions/users/signUp";
 export default function NavMenu() {
   const { data: session } = useSession();
 
