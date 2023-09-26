@@ -21,7 +21,7 @@ export default async function Home() {
   //   }});
 
   return (
-    <>
+    <div className="relative flex flex-col justify-center items-center h-screen overflow-hidden">
       <header>
         <h1>Welcome Page</h1>
       </header>
@@ -30,6 +30,6 @@ export default async function Home() {
       ) : (
         <div>Not Logged In</div>
       )}
-    </>
+    </div>
   );
 }
