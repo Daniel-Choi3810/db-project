@@ -15,7 +15,7 @@ const SignUpForm = () => {
   useEffect(() => {
     if (status === "authenticated") {
       router.refresh();
-      router.push("/");
+      router.push("/jobs");
     }
   }, [status]);
 
