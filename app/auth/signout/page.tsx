@@ -1,4 +1,4 @@
-import SignOut from "@/app/utils/SignOut";
+import SignOut from "@/app/actions/users/SignOut";
 import React from "react";
 
 const SignOutPage = () => {

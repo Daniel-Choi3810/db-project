@@ -9,6 +9,8 @@ import Link from "next/link";
 
 const SignUpForm = () => {
   const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const { status } = useSession();
@@ -25,7 +27,19 @@ const SignUpForm = () => {
   const handleSubmit = async () => {
     setMessage("Signing up...");
     try {
-      await signUp(email, password);
+      const signUpResponse = await signUp(
+        fullName,
+        mobileNumber,
+        email,
+        password
+      );
+
+      // Check the response from signUp before proceeding
+      if (signUpResponse !== "Successfully created new user!") {
+        setMessage(signUpResponse);
+        return;
+      }
+
       const signInResponse = await signIn("credentials", {
         email,
         password,
@@ -41,8 +55,6 @@ const SignUpForm = () => {
       console.log(err);
       setMessage(err as string);
     }
-
-    setMessage(message);
   };
 
   return (
@@ -53,6 +65,28 @@ const SignUpForm = () => {
           FootStomp
         </h1>
         <div className="space-y-4">
+          <div>
+            <label className="label">
+              <span className="text-base label-text">Full Name:</span>
+            </label>
+            <input
+              className="w-full input input-bordered"
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="label">
+              <span className="text-base label-text">Phone Number:</span>
+            </label>
+            <input
+              className="w-full input input-bordered"
+              type="text"
+              value={mobileNumber}
+              onChange={(e) => setMobileNumber(e.target.value)}
+            />
+          </div>
           <div>
             <label className="label">
               <span className="text-base label-text">Email:</span>

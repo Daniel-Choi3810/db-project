@@ -2,7 +2,6 @@ import prisma from "@/lib/prisma";
 import { Account, AuthOptions, Profile, Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { JWT } from "next-auth/jwt";
 import NextAuth from "next-auth/next";
 
@@ -21,13 +20,15 @@ export const authOptions: AuthOptions = {
           type: "password",
         },
       },
-      authorize: async (credentials) => {
+      authorize: async (
+        credentials: Record<"email" | "password", string> | undefined
+      ) => {
         if (!credentials) {
           return null;
         }
 
         const { email, password } = credentials;
-        const user = await prisma.user.findUnique({
+        const user = await prisma.candidate.findUnique({
           where: { email },
         });
 
@@ -40,7 +41,14 @@ export const authOptions: AuthOptions = {
         if (!isValidPassword) {
           return null;
         }
-        return user;
+
+        return {
+          id: user.candidateId, // update this line to use candidateId instead of id
+          name: user.fullName,
+          email: user.email,
+          image: null,
+          candidateId: user.candidateId,
+        } as User;
       },
     }),
   ],
@@ -49,25 +57,6 @@ export const authOptions: AuthOptions = {
     signOut: "/auth/signout",
   },
   secret: process.env.NEXTAUTH_SECRET as string,
-  jwt: {
-    // async encode({ secret, token }) {
-    //   if (!token) {
-    //     throw new Error("No token to encode");
-    //   }
-    //   return jwt.sign(token, secret);
-    // },
-    // async decode({ secret, token }) {
-    //   if (!token) {
-    //     return new Error("No token to decode");
-    //   }
-    //   const decodedToken = jwt.verify(token, secret);
-    //   if (typeof decodedToken === "string") {
-    //     return JSON.parse(decodedToken);
-    //   } else {
-    //     return decodedToken;
-    //   }
-    // },
-  },
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
