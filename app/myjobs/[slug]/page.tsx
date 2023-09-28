@@ -6,8 +6,10 @@ export default async function MyJobsWithId({
   params: { slug: string };
 }) {
   return (
-    <header>
-      <h1>My Job: {params.slug}</h1>
-    </header>
+    <div className="relative flex flex-col justify-center items-center h-screen overflow-hidden">
+      <header>
+        <h1>My Job: {params.slug}</h1>
+      </header>
+    </div>
   );
 }

@@ -7,8 +7,8 @@ export default function NavMenu() {
   const { data: session } = useSession();
 
   return (
-    <>
-      <div className="navbar bg-base-100">
+    <div className="fixed top-0 left-0 right-0 bg-white z-10">
+      <div className="navbar bg-base-100 ">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -69,7 +69,7 @@ export default function NavMenu() {
             <li tabIndex={0}>
               <details>
                 <summary>Profile</summary>
-                <ul className="p-2">
+                <ul className="p-2 bg-white">
                   <li>
                     <h1 className="font-bold">
                       {session ? session?.user?.email : "Guest"}
@@ -99,6 +99,6 @@ export default function NavMenu() {
         </div>
       </div>
       <hr />
-    </>
+    </div>
   );
 }

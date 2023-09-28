@@ -1,11 +1,10 @@
-import SignUpForm from '@/components/SignUpForm'
-import React from 'react'
+import SignUpForm from "@/components/auth/SignUpForm";
+import React from "react";
 
 export default function SignUpPage() {
   return (
-    <div className='flex flx-col gap-4'>
-      <h1 className='text-3xl'>SignUp Page</h1>
+    <div className="relative flex flex-col justify-center items-center h-screen overflow-hidden ">
       <SignUpForm />
     </div>
-  )
+  );
 }
