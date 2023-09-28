@@ -4,7 +4,8 @@ import { signUp } from "@/app/actions/users/signUp";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 const SignUpForm = () => {
   const [email, setEmail] = useState("");
@@ -45,7 +46,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="space-y-32">
+    <div className="space-y-24 w-full">
       <h1 className="text-center font-bold text-4xl">Sign Up to View Jobs!</h1>
       <div className="w-full p-6 m-auto bg-white rounded-md shadow-md ring-2 ring-gray-800/50 lg:max-w-lg">
         <h1 className="text-3xl font-semibold text-center text-gray-700">
@@ -74,11 +75,12 @@ const SignUpForm = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div>
-            <Button onClick={handleSubmit} className="btn btn-block">
-              Sign Up
-            </Button>
-          </div>
+          <Button onClick={handleSubmit} className="btn btn-block">
+            Sign Up
+          </Button>
+          <Link className="font-medium" href="/auth/signin">
+            <p className="text-center my-4">Sign in</p>
+          </Link>
           <p className="text-center">{message}</p>
         </div>
       </div>

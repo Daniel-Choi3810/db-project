@@ -57,7 +57,7 @@ export default function NavMenu() {
               </ul>
             </ul>
           </div>
-          <Link href="/jobs" className="btn btn-ghost normal-case text-xl">
+          <Link href="/" className="btn btn-ghost normal-case text-xl">
             FootStomp
           </Link>
         </div>
@@ -69,7 +69,7 @@ export default function NavMenu() {
             <li tabIndex={0}>
               <details>
                 <summary>Profile</summary>
-                <ul className="p-2">
+                <ul className="p-2 bg-white">
                   <li>
                     <h1 className="font-bold">
                       {session ? session?.user?.email : "Guest"}

@@ -1,11 +1,8 @@
-
-import SignOut from '@/components/SignOut'
-import React from 'react'
+import SignOut from "@/app/utils/SignOut";
+import React from "react";
 
 const SignOutPage = () => {
-  return (
-    <SignOut />
-  )
-}
+  return <SignOut />;
+};
 
-export default SignOutPage
+export default SignOutPage;
