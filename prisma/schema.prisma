@@ -12,11 +12,13 @@ datasource db {
 }
 
 model Candidate {
-  candidateId   String         @id @default(cuid())
-  fullName      String
-  email         String         @unique
-  passwordHash  String
-  mobileNumbers MobileNumber[]
+  candidateId    String           @id @default(cuid())
+  fullName       String
+  email          String           @unique
+  passwordHash   String
+  mobileNumbers  MobileNumber[]
+  CandidateSkill CandidateSkill[]
+  Application    Application[]
 }
 
 model MobileNumber {
@@ -26,4 +28,91 @@ model MobileNumber {
   candidateId    String
 
   @@index([candidateId])
+}
+
+model Company {
+  companyID   String             @id @default(cuid())
+  name        String
+  industry    String
+  description String
+  companySize String
+  state       String
+  country     String
+  address     String
+  specialties CompanySpecialty[]
+  jobPostings JobPosting[]
+  Post        Post[]
+}
+
+model CompanySpecialty {
+  companyID String
+  specialty String  @unique
+  company   Company @relation(fields: [companyID], references: [companyID])
+
+  @@index([companyID])
+}
+
+model JobPosting {
+  jobID           String              @id @default(cuid())
+  title           String
+  salary          String
+  description     String
+  jobPostURL      String
+  location        String
+  experienceLevel String
+  workType        String
+  company         Company             @relation(fields: [companyID], references: [companyID])
+  companyID       String
+  jobSkills       JobPostingSkill[]
+  benefits        JobPostingBenefit[]
+  posts           Post[]
+  applications    Application[]
+
+  @@index([companyID])
+}
+
+model JobPostingSkill {
+  jobID      String     @id
+  skill      String
+  jobPosting JobPosting @relation(fields: [jobID], references: [jobID])
+
+  @@index([jobID])
+}
+
+model JobPostingBenefit {
+  jobID      String     @id
+  benefit    String
+  jobPosting JobPosting @relation(fields: [jobID], references: [jobID])
+
+  @@index([jobID])
+}
+
+model Post {
+  jobID      String     @id
+  companyID  String
+  jobPosting JobPosting @relation(fields: [jobID], references: [jobID])
+  company    Company    @relation(fields: [companyID], references: [companyID])
+
+  @@index([jobID])
+  @@index([companyID])
+}
+
+model CandidateSkill {
+  candidateID String    @id
+  skill       String
+  candidate   Candidate @relation(fields: [candidateID], references: [candidateId])
+
+  @@index([candidateID])
+}
+
+model Application {
+  applicationID String     @id @default(cuid())
+  resume        String
+  jobID         String
+  candidateID   String
+  candidate     Candidate  @relation(fields: [candidateID], references: [candidateId])
+  jobPosting    JobPosting @relation(fields: [jobID], references: [jobID])
+
+  @@index([candidateID])
+  @@index([jobID])
 }
