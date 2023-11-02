@@ -72,7 +72,7 @@ export default function NavMenu() {
                 <ul className="p-2 bg-white">
                   <li>
                     <h1 className="font-bold">
-                      {session ? session?.user?.email : "Guest"}
+                      {session ? session?.user?.name : "Guest"}
                     </h1>
                   </li>
                   <hr />
