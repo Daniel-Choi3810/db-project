@@ -43,11 +43,10 @@ export const authOptions: AuthOptions = {
         }
 
         return {
-          id: user.candidateId, // update this line to use candidateId instead of id
+          id: user.candidateID.toString(), // update this line to use candidateId instead of id
           name: user.fullName,
           email: user.email,
-          image: null,
-          candidateId: user.candidateId,
+          candidateId: user.candidateID,
         } as User;
       },
     }),
