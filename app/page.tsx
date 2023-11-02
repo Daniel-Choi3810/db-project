@@ -11,7 +11,7 @@ export default async function Home() {
         email: session.user.email,
       },
     });
-    const candidateId = candidate?.candidateId;
+    const candidateId = candidate?.candidateID;
     console.log(candidateId);
   }
 

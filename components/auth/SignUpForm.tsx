@@ -53,7 +53,7 @@ const SignUpForm = () => {
       }
     } catch (err) {
       console.log(err);
-      setMessage(err as string);
+      setMessage((err as Error).message);
     }
   };
 

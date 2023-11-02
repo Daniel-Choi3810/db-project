@@ -6,113 +6,103 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Define your Prisma models
+model Company {
+  companyID   BigInt                @id
+  name        String
+  description String?
+  companySize String?
+  state       String?
+  country     String?
+  address     String?
+  industries  Company_industries[]
+  specialties Company_specialties[]
+  JobPostings JobPostings[]
+}
+
+model Company_industries {
+  companyID BigInt
+  industry  String
+  Company   Company @relation(fields: [companyID], references: [companyID])
+
+  @@id([companyID, industry])
+}
+
+model Company_specialties {
+  companyID BigInt
+  specialty String
+  Company   Company @relation(fields: [companyID], references: [companyID])
+
+  @@id([companyID, specialty])
+}
+
+model JobPostings {
+  jobID           BigInt                  @id
+  companyID       BigInt
+  title           String
+  description     String?
+  salary          Float?
+  jobPostURL      String?
+  location        String?
+  experienceLevel String?
+  workType        String?
+  Company         Company                 @relation(fields: [companyID], references: [companyID])
+  jobSkills       JobPostings_jobSkills[]
+  benefits        JobPostings_benefits[]
+  Applications    Application[]
+}
+
+model JobPostings_jobSkills {
+  jobID       BigInt
+  jobSkills   String
+  JobPostings JobPostings @relation(fields: [jobID], references: [jobID])
+
+  @@id([jobID, jobSkills])
+}
+
+model JobPostings_benefits {
+  jobID       BigInt
+  benefits    String
+  JobPostings JobPostings @relation(fields: [jobID], references: [jobID])
+
+  @@id([jobID, benefits])
 }
 
 model Candidate {
-  candidateId    String           @id @default(cuid())
-  fullName       String
-  email          String           @unique
-  passwordHash   String
-  mobileNumbers  MobileNumber[]
-  CandidateSkill CandidateSkill[]
-  Application    Application[]
+  candidateID     BigInt                      @id @default(autoincrement())
+  fullName        String
+  email           String                      @unique
+  passwordHash    String
+  mobileNumbers   Candidate_mobileNumber[]
+  candidateSkills Candidate_candidateSkills[]
+  Applications    Application[]
 }
 
-model MobileNumber {
-  mobileNumberId String    @id @default(cuid())
-  number         String
-  candidate      Candidate @relation(fields: [candidateId], references: [candidateId])
-  candidateId    String
+model Candidate_mobileNumber {
+  candidateID  BigInt
+  mobileNumber String
+  Candidate    Candidate @relation(fields: [candidateID], references: [candidateID])
 
-  @@index([candidateId])
+  @@id([candidateID, mobileNumber])
 }
 
-model Company {
-  companyID   String             @id @default(cuid())
-  name        String
-  industry    String
-  description String
-  companySize String
-  state       String
-  country     String
-  address     String
-  specialties CompanySpecialty[]
-  jobPostings JobPosting[]
-  Post        Post[]
-}
+model Candidate_candidateSkills {
+  candidateID     BigInt
+  candidateSkills String
+  Candidate       Candidate @relation(fields: [candidateID], references: [candidateID])
 
-model CompanySpecialty {
-  companyID String
-  specialty String  @unique
-  company   Company @relation(fields: [companyID], references: [companyID])
-
-  @@index([companyID])
-}
-
-model JobPosting {
-  jobID           String              @id @default(cuid())
-  title           String
-  salary          String
-  description     String
-  jobPostURL      String
-  location        String
-  experienceLevel String
-  workType        String
-  company         Company             @relation(fields: [companyID], references: [companyID])
-  companyID       String
-  jobSkills       JobPostingSkill[]
-  benefits        JobPostingBenefit[]
-  posts           Post[]
-  applications    Application[]
-
-  @@index([companyID])
-}
-
-model JobPostingSkill {
-  jobID      String     @id
-  skill      String
-  jobPosting JobPosting @relation(fields: [jobID], references: [jobID])
-
-  @@index([jobID])
-}
-
-model JobPostingBenefit {
-  jobID      String     @id
-  benefit    String
-  jobPosting JobPosting @relation(fields: [jobID], references: [jobID])
-
-  @@index([jobID])
-}
-
-model Post {
-  jobID      String     @id
-  companyID  String
-  jobPosting JobPosting @relation(fields: [jobID], references: [jobID])
-  company    Company    @relation(fields: [companyID], references: [companyID])
-
-  @@index([jobID])
-  @@index([companyID])
-}
-
-model CandidateSkill {
-  candidateID String    @id
-  skill       String
-  candidate   Candidate @relation(fields: [candidateID], references: [candidateId])
-
-  @@index([candidateID])
+  @@id([candidateID, candidateSkills])
 }
 
 model Application {
-  applicationID String     @id @default(cuid())
-  resume        String
-  jobID         String
-  candidateID   String
-  candidate     Candidate  @relation(fields: [candidateID], references: [candidateId])
-  jobPosting    JobPosting @relation(fields: [jobID], references: [jobID])
-
-  @@index([candidateID])
-  @@index([jobID])
+  applicationID BigInt      @id
+  candidateID   BigInt
+  jobID         BigInt
+  resume        String?
+  Candidate     Candidate   @relation(fields: [candidateID], references: [candidateID])
+  JobPostings   JobPostings @relation(fields: [jobID], references: [jobID])
 }
