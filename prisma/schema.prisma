@@ -44,7 +44,7 @@ model JobPostings {
   jobID           BigInt                  @id
   companyID       BigInt
   title           String
-  description     String?
+  description     String?                 @db.Text
   salary          Float?
   jobPostURL      String?
   location        String?

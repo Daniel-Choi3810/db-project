@@ -23,7 +23,6 @@ export default function JobCard({
     // Navigate to the dynamic route
     router.push(`/jobs/${jobID}`);
   };
-  console.log("Job ID is: ", jobID);
   return (
     <div
       className="card w-80 bg-white rounded-lg shadow-md m-4 p-4 flex flex-col justify-between cursor-pointer"
