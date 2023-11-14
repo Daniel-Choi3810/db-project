@@ -1,4 +1,5 @@
 import PaginationControls from "@/components/common/PaginationControls";
+import JobCard from "@/components/jobs/JobCard";
 import prisma from "@/lib/prisma";
 import React from "react";
 
@@ -30,18 +31,6 @@ export default async function Jobs({
     await prisma.$queryRaw`SELECT COUNT(*) as count FROM JobPostings;`;
   const total = totalPostings[0].count;
 
-  if (page < 1 || page > Math.ceil(Number(BigInt(total) / BigInt(perPage)))) {
-    // Return a 404 response or redirect to a valid page
-    return {
-      notFound: true, // This will return a 404 page
-      // Alternatively, you could redirect to the last valid page
-      // redirect: {
-      //   destination: `/?page=${Math.ceil(total / perPage)}&per_page=${perPage}`,
-      //   permanent: false,
-      // },
-    };
-  }
-
   return (
     <div className="relative flex flex-col justify-center items-center mt-20">
       <header>
@@ -49,35 +38,18 @@ export default async function Jobs({
       </header>
       <div className="grid grid-cols-3 gap-4">
         {jobPostings.map((jobPosting: any) => (
-          <div className="card w-80 bg-white rounded-lg shadow-md m-4 p-4 flex flex-col justify-between">
-            <div className="flex justify-between">
-              <h2 className="text-black font-bold text-xl">
-                {jobPosting.title}
-              </h2>
-              <p className="text-gray-500">{jobPosting.jobPostURL}</p>
-            </div>
-
-            <div className="flex justify-between mt-2">
-              <p className="text-gray-700 font-medium">
-                {jobPosting.companyName}
-              </p>
-              <div className="flex space-x-2">
-                <span className="bg-green-500 text-white py-1 px-2 rounded">{`$${jobPosting.salary}`}</span>
-                <span className="bg-blue-500 text-white py-1 px-2 rounded">
-                  {jobPosting.workType}
-                </span>
-              </div>
-            </div>
-          </div>
+          <JobCard
+            key={jobPosting.jobID}
+            jobID={jobPosting.jobID}
+            title={jobPosting.title}
+            jobPostURL={jobPosting.jobPostURL}
+            companyName={jobPosting.companyName}
+            salary={jobPosting.salary}
+            workType={jobPosting.workType}
+          />
         ))}
       </div>
-      <PaginationControls
-        hasNextPage={page * perPage < total}
-        hasPrevPage={page > 1}
-        currentPage={page}
-        total={total}
-        perPage={perPage}
-      />
+      <PaginationControls currentPage={page} total={total} perPage={perPage} />
     </div>
   );
 }

@@ -8,16 +8,12 @@ import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PaginationControlsProps {
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
   currentPage: number;
   total: number;
   perPage: number;
 }
 
 const PaginationControls: FC<PaginationControlsProps> = ({
-  hasNextPage,
-  hasPrevPage,
   currentPage,
   total,
   perPage,
