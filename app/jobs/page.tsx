@@ -33,9 +33,6 @@ export default async function Jobs({
 
   return (
     <div className="relative flex flex-col justify-center items-center mt-20">
-      <header>
-        <h1>Jobs Page</h1>
-      </header>
       <div className="grid grid-cols-3 gap-4">
         {jobPostings.map((jobPosting: any) => (
           <JobCard

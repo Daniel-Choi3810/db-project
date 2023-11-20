@@ -20,7 +20,6 @@ export default function JobCard({
   const router = useRouter();
 
   const handleCardClick = () => {
-    // Navigate to the dynamic route
     router.push(`/jobs/${jobID}`);
   };
   return (
@@ -34,9 +33,11 @@ export default function JobCard({
       </div>
 
       <div className="flex justify-between mt-2">
-        <p className="text-gray-700 font-medium">{companyName}</p>
+        <p className="text-gray-700 font-medium pr-8">{companyName}</p>
         <div className="flex space-x-2">
-          <span className="bg-green-500 text-white py-1 px-2 rounded">{`$${salary}`}</span>
+          <span className="bg-green-500 text-white py-1 px-2 rounded">
+            {salary != "0" ? `$${salary}` : "$100000"}
+          </span>
           <span className="bg-blue-500 text-white py-1 px-2 rounded">
             {workType}
           </span>

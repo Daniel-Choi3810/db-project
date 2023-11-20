@@ -22,7 +22,6 @@ export default async function JobsWithId({
 }: {
   params: { slug: number };
 }) {
-  // Fetch the specific job data using the `slug` with a raw SQL query
   const jobs = await prisma.$queryRaw<JobPosting[]>`
     SELECT 
       JobPostings.*, 
@@ -36,16 +35,13 @@ export default async function JobsWithId({
   `;
 
   if (!jobs) {
-    // Handle the case where the job is not found
     return <p>Job not found</p>;
   }
 
-  // Assume job is the first element if found
   const jobDetails = jobs[0];
 
-  // Render the job details with the layout from the image
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen pt-[height_of_navbar] pb-[bottom_padding]">
+    <div className="flex flex-col justify-center items-center min-h-screen pt-20 pb-3">
       <div className="border p-6 rounded-md w-full max-w-4xl">
         <div className="flex items-center mb-4">
           <BackButton className="mr-4">Back</BackButton>
