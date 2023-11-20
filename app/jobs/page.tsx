@@ -1,5 +1,6 @@
 import PaginationControls from "@/components/common/PaginationControls";
 import JobCard from "@/components/jobs/JobCard";
+import NewJobForm from "@/components/jobs/NewJobForm";
 import SearchBar from "@/components/jobs/SearchBar";
 import prisma from "@/lib/prisma";
 import React from "react";
