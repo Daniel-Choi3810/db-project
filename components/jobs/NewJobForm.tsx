@@ -1,15 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import Select from "react-select"; // This should be installed with `npm install react-select` or `yarn add react-select`
 import TextFormField from "./TextFormField";
 import MultiFormField from "./MultiFormField";
+import { Button } from "../ui/button";
 
 const jobTypes = [
   { value: "FULL_TIME", label: "Full Time" },
   { value: "PART_TIME", label: "Part Time" },
   { value: "CONTRACT", label: "Contract" },
   { value: "INTERNSHIP", label: "Internship" },
-  // ... other options
 ];
 
 const experienceLevels = [
@@ -24,19 +23,27 @@ const NewJobForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    salary: "",
+    company: "",
+    salary: 0,
     jobPostURL: "",
-    location: [],
+    location: "",
     experienceLevel: [],
     workType: [],
-    company: "",
     jobSkills: [],
     benefits: [],
   });
 
-  const handleSubmit = (e: any) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic
+    try {
+      fetch("/api/add-job", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleChange = (name: any, value: any) => {
@@ -53,7 +60,7 @@ const NewJobForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleFormSubmit}>
       <TextFormField
         formData={formData}
         handleChange={handleChange}
@@ -63,6 +70,11 @@ const NewJobForm = () => {
         formData={formData}
         handleChange={handleChange}
         fieldName="description"
+      />
+      <TextFormField
+        formData={formData}
+        handleChange={handleChange}
+        fieldName="company"
       />
       <TextFormField
         formData={formData}
@@ -79,24 +91,20 @@ const NewJobForm = () => {
         handleChange={handleChange}
         fieldName="location"
       />
-      <TextFormField
-        formData={formData}
-        handleChange={handleChange}
-        fieldName="Company"
-      />
-      {/* Example for a multi-select field */}
       <MultiFormField
         jobTypes={jobTypes}
         handleMultiChange={handleMultiChange}
         fieldName="workType"
       />
       <MultiFormField
-        jobTypes={jobTypes}
+        jobTypes={experienceLevels}
         handleMultiChange={handleMultiChange}
         fieldName="experienceLevel"
       />
-      {/* Repeat for location, experience level, jobSkills, benefits */}
-      <button type="submit">Create Job Posting</button>
+
+      <Button variant="secondary" className="submit">
+        Create Job Posting
+      </Button>
     </form>
   );
 };

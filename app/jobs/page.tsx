@@ -2,7 +2,9 @@ import PaginationControls from "@/components/common/PaginationControls";
 import JobCard from "@/components/jobs/JobCard";
 import NewJobForm from "@/components/jobs/NewJobForm";
 import SearchBar from "@/components/jobs/SearchBar";
+import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 import React from "react";
 
 export default async function Jobs({
@@ -17,11 +19,9 @@ export default async function Jobs({
   const offset = (page - 1) * perPage;
 
   const whereClause = query
-    ? `WHERE JobPostings.title LIKE '%${query}%' OR Company.name LIKE '%${query}%' 
-    OR JobPostings.description LIKE '%${query}%' 
-    OR JobPostings.salary LIKE '%${query}%'
-    OR JobPostings.workType LIKE '%${query}%'
-    OR JobPostings.jobPostURL LIKE '%${query}%'`
+    ? `WHERE JobPostings.title LIKE '%${query}%' 
+    OR Company.name LIKE '%${query}%' 
+    OR JobPostings.salary LIKE '%${query}%'`
     : "";
 
   // Use the whereClause in the SQL query
@@ -44,7 +44,15 @@ export default async function Jobs({
 
   return (
     <div className="relative flex flex-col justify-center items-center mt-20">
-      <SearchBar />
+      <div className="flex items-center space-x-4">
+        {" "}
+        {/* This container applies flexbox layout */}
+        <Button variant="secondary" className="px-4 py-2">
+          <Link href={"/jobs/newjob"}>{"New Job"}</Link>
+        </Button>
+        {/* Add padding to the button */}
+        <SearchBar />
+      </div>
       <div className="grid grid-cols-3 gap-4">
         {jobPostings.map((jobPosting: any) => (
           <JobCard

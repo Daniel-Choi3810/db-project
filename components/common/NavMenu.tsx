@@ -51,9 +51,6 @@ export default function NavMenu() {
                     </ul>
                   </details>
                 </li>
-                <li>
-                  <Link href="/myjobs">My Jobs</Link>
-                </li>
               </ul>
             </ul>
           </div>
@@ -81,9 +78,6 @@ export default function NavMenu() {
                   </li>
                 </ul>
               </details>
-            </li>
-            <li>
-              <Link href="/myjobs">My Jobs</Link>
             </li>
           </ul>
         </div>
