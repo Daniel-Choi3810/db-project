@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React from "react";
+import DeleteButton from "./DeleteButton";
 
 export default function JobCard({
   jobID,
@@ -22,6 +23,7 @@ export default function JobCard({
   const handleCardClick = () => {
     router.push(`/jobs/${jobID}`);
   };
+
   return (
     <div
       className="card w-80 bg-white rounded-lg shadow-md m-4 p-4 flex flex-col justify-between cursor-pointer"
@@ -34,6 +36,7 @@ export default function JobCard({
 
       <div className="flex justify-between mt-2">
         <p className="text-gray-700 font-medium pr-8">{companyName}</p>
+        <DeleteButton jobID={jobID} />
         <div className="flex space-x-2">
           <span className="bg-green-500 text-white py-1 px-2 rounded">
             {salary != "0" ? `$${salary}` : "$100000"}

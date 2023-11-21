@@ -1,4 +1,4 @@
-import NewJobForm from "@/components/jobs/NewJobForm";
+import NewJobForm from "@/components/jobs/jobForm/NewJobForm";
 import React from "react";
 
 export default function NewJob() {
