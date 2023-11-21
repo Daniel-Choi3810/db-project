@@ -20,21 +20,21 @@ export default async function Jobs({
 
   const whereClause = query
     ? `WHERE JobPostings.title LIKE '%${query}%' 
-    OR Company.name LIKE '%${query}%' 
-    OR JobPostings.salary LIKE '%${query}%'`
+      OR Company.name LIKE '%${query}%' 
+      OR JobPostings.salary LIKE '%${query}%'`
     : "";
 
   // Use the whereClause in the SQL query
   const jobPostings: any[] = await prisma.$queryRawUnsafe(
     `SELECT 
-      JobPostings.*, 
-      Company.name AS companyName 
-    FROM 
-      JobPostings 
-    JOIN 
-      Company ON JobPostings.companyID = Company.companyID
-    ${whereClause}
-    LIMIT ${perPage} OFFSET ${offset};`
+        JobPostings.*, 
+        Company.name AS companyName 
+      FROM 
+        JobPostings 
+      JOIN 
+        Company ON JobPostings.companyID = Company.companyID
+      ${whereClause}
+      LIMIT ${perPage} OFFSET ${offset};`
   );
 
   // Fetch the total count of job postings for pagination controls

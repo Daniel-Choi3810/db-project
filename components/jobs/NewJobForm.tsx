@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import TextFormField from "./TextFormField";
 import MultiFormField from "./MultiFormField";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const jobTypes = [
   { value: "FULL_TIME", label: "Full Time" },
@@ -15,11 +16,13 @@ const experienceLevels = [
   { value: "Entry level", label: "Entry Level" },
   { value: "Mid-Senior level", label: "Mid-Senior Level" },
   { value: "Director", label: "Director" },
-  { value: "Associate", label: "associate" },
+  { value: "Associate", label: "Associate" },
   { value: "Executive", label: "Executive" },
 ];
 
 const NewJobForm = () => {
+  // router
+  const router = useRouter();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -102,7 +105,11 @@ const NewJobForm = () => {
         fieldName="experienceLevel"
       />
 
-      <Button variant="secondary" className="submit">
+      <Button
+        variant="secondary"
+        className="submit"
+        onClick={() => router.push("/jobs")}
+      >
         Create Job Posting
       </Button>
     </form>
