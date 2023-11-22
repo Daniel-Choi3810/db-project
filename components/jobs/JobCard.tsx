@@ -35,8 +35,7 @@ export default function JobCard({
       </div>
 
       <div className="flex justify-between mt-2">
-        <p className="text-gray-700 font-medium pr-8">{companyName}</p>
-        <DeleteButton jobID={jobID} />
+        <p className="text-gray-700 font-medium pr-4">{companyName}</p>
         <div className="flex space-x-2">
           <span className="bg-green-500 text-white py-1 px-2 rounded">
             {salary != "0" ? `$${salary}` : "$100000"}
@@ -44,6 +43,7 @@ export default function JobCard({
           <span className="bg-blue-500 text-white py-1 px-2 rounded">
             {workType}
           </span>
+          <DeleteButton jobID={jobID} />
         </div>
       </div>
     </div>

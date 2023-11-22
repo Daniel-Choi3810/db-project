@@ -1,6 +1,5 @@
 import PaginationControls from "@/components/common/PaginationControls";
 import JobCard from "@/components/jobs/JobCard";
-import NewJobForm from "@/components/jobs/jobForm/NewJobForm";
 import SearchBar from "@/components/jobs/SearchBar";
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
@@ -24,7 +23,6 @@ export default async function Jobs({
       OR JobPostings.salary LIKE '%${query}%'`
     : "";
 
-  // Use the whereClause in the SQL query
   const jobPostings: any[] = await prisma.$queryRawUnsafe(
     `SELECT 
         JobPostings.*, 
@@ -37,7 +35,6 @@ export default async function Jobs({
       LIMIT ${perPage} OFFSET ${offset};`
   );
 
-  // Fetch the total count of job postings for pagination controls
   const totalPostings: any[] =
     await prisma.$queryRaw`SELECT COUNT(*) as count FROM JobPostings;`;
   const total = totalPostings[0].count;
@@ -45,12 +42,9 @@ export default async function Jobs({
   return (
     <div className="relative flex flex-col justify-center items-center mt-20">
       <div className="flex items-center space-x-4">
-        {" "}
-        {/* This container applies flexbox layout */}
         <Button variant="secondary" className="px-4 py-2">
           <Link href={"/jobs/newjob"}>{"New Job"}</Link>
         </Button>
-        {/* Add padding to the button */}
         <SearchBar />
       </div>
       <div className="grid grid-cols-3 gap-4">

@@ -1,10 +1,10 @@
-// app/jobs/[slug]/+page.tsx
-"use server";
-
-import React from "react";
+import React, { useState } from "react";
 import prisma from "@/lib/prisma";
-import { Button } from "@/components/ui/button";
 import BackButton from "@/components/common/BackButton";
+import { Button } from "@/components/ui/button";
+import { Edit } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type JobPosting = {
   jobID: number;
@@ -55,14 +55,18 @@ export default async function JobsWithId({
             <p className="text-lg">{jobDetails.jobPostURL}</p>
           </div>
           <div>
-            <p className="text-lg bg-green-200 rounded px-4 py-1">
+            <Button variant="secondary" className="px-4 py-2">
+              <Link href={`/jobs/${jobDetails.jobID}/update`}>
+                <Edit className="h-4 w-4" />
+              </Link>
+            </Button>
+            <p className="text-lg bg-green-200 rounded px-4 py-1 my-4 ">
               {jobDetails.salary}
             </p>
           </div>
         </div>
         <h2 className="text-2xl font-bold mb-2">Description</h2>
         <p>{jobDetails.description}</p>
-        {/* ... Additional sections like Key Qualifications ... */}
       </div>
     </div>
   );

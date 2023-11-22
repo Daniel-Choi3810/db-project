@@ -57,15 +57,5 @@ export async function POST(request: { json: () => any }) {
   );
 
   console.log(result);
-
-  //   const {
-  //     title,
-  //     description,
-  //     salary,
-  //     jobPostURL,
-  //     location,
-  //     experienceLevel,
-  //     workType,
-  //   } = res;
   return NextResponse.json({ result });
 }
