@@ -25,6 +25,7 @@ interface UpdateJobFormProps {
   job: {
     title: string;
     description: string;
+    companyID: number;
     companyName: string;
     salary: number;
     jobPostURL: string;
@@ -42,30 +43,38 @@ const UpdateJobForm = ({ job, jobID }: UpdateJobFormProps) => {
   // router
   const router = useRouter();
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    companyName: "",
-    salary: 0,
-    jobPostURL: "",
-    location: "",
-    experienceLevel: [],
-    workType: [],
-    jobSkills: [],
-    benefits: [],
+    jobID: jobID,
+    companyID: job.companyID,
+    title: job.title,
+    description: job.description,
+    companyName: job.companyName,
+    salary: job.salary,
+    jobPostURL: job.location,
+    location: job.jobPostURL,
+    experienceLevel: job.experienceLevel,
+    workType: job.workType,
+    jobSkills: job.jobSkills,
+    benefits: job.benefits,
   });
 
+  // console.log("jobID: ", jobID);
+  // console.log("companyID: ", job.companyID);
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Job posting updated!");
-    // console.log(formData);
+    const safeFormData = {
+      ...formData,
+      companyID: String(formData.companyID), // Assuming companyID is the BigInt
+      // Add any other BigInt conversions here if necessary
+    };
     try {
       fetch(`/api/update-job`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(safeFormData),
       });
+      alert("Job posting updated!");
     } catch (error) {
-      console.error(error);
+      console.error("Handle form submit error: ", error);
     }
   };
 

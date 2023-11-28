@@ -7,10 +7,12 @@ export default async function UpdatePage({
 }: {
   params: { slug: number };
 }) {
+  // console.log(params.slug);
   const jobDetails: any = await prisma.$queryRaw`
     SELECT 
       JobPostings.*, 
-      Company.name AS companyName
+      Company.name AS companyName,
+      Company.companyID AS companyID
     FROM
 
         JobPostings
@@ -20,6 +22,8 @@ export default async function UpdatePage({
         JobPostings.jobID = ${params.slug}
     `;
   const job = jobDetails[0];
+  // console.log(job.companyID);
+  // console.log(job.jobID);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 mt-20">
       <UpdateJobForm job={job} jobID={params.slug} />
