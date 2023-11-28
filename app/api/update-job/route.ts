@@ -4,23 +4,23 @@ import { NextResponse } from "next/server";
 export async function PUT(request: { json: () => any }) {
   try {
     const res = await request.json();
-    console.log("Res is ", res);
-    console.log("Job ID is ", res.jobID);
-    console.log("Company ID is ", res.companyID);
-    console.log("Experience level is ", res.experienceLevel);
-    console.log("Work type is ", res.workType);
-    console.log("location is ", res.location);
-    console.log("jobPostURL is ", res.jobPostURL);
+    // console.log("Res is ", res);
+    // console.log("Job ID is ", res.jobID);
+    // console.log("Company ID is ", res.companyID);
+    // console.log("Experience level is ", res.experienceLevel);
+    // console.log("Work type is ", res.workType);
+    // console.log("location is ", res.location);
+    // console.log("jobPostURL is ", res.jobPostURL);
     const jobID = res.jobID;
-    // if (typeof jobID === "string") console.log("Job ID is a string");
+    if (typeof jobID === "string") console.log("Job ID is a string");
     const companyID = res.companyID;
     const title = res.title;
     const description = res.description;
     const salary = res.salary;
     const jobPostURL = res.jobPostURL;
     const location = res.location;
-    const experienceLevel = res.experienceLevel.join(", ");
-    const workType = res.workType.join(", ");
+    // const experienceLevel = res.experienceLevel.join(", ");
+    // const workType = res.workType.join(", ");
     //   const result = await prisma.$executeRawUnsafe(
     //     `UPDATE JobPostings
     //     SET
@@ -57,9 +57,7 @@ export async function PUT(request: { json: () => any }) {
           description = ?,
           salary = ?,
           jobPostURL = ?,
-          location = ?,
-          experienceLevel = ?,
-          workType = ?
+          location = ?
       WHERE
           jobID = ?
       `,
@@ -67,10 +65,8 @@ export async function PUT(request: { json: () => any }) {
       title,
       description,
       salary,
-      jobPostURL,
-      experienceLevel,
       location,
-      workType,
+      jobPostURL,
       jobID
     );
     console.log("Result is ", result);

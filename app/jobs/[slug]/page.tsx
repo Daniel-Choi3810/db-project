@@ -1,9 +1,7 @@
-import React, { useState } from "react";
 import prisma from "@/lib/prisma";
 import BackButton from "@/components/common/BackButton";
 import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 type JobPosting = {

@@ -22,6 +22,7 @@ export default async function UpdatePage({
         JobPostings.jobID = ${params.slug}
     `;
   const job = jobDetails[0];
+  console.log("job: ", job);
   // console.log(job.companyID);
   // console.log(job.jobID);
   return (

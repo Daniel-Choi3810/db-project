@@ -2,9 +2,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import FormField from "./FormField";
-import MultiField from "./MultiField";
 import { Button } from "@/components/ui/button";
-import { CoinsIcon } from "lucide-react";
+import BackButton from "@/components/common/BackButton";
 
 const jobTypes = [
   { value: "FULL_TIME", label: "Full Time" },
@@ -57,14 +56,14 @@ const UpdateJobForm = ({ job, jobID }: UpdateJobFormProps) => {
     benefits: job.benefits,
   });
 
-  // console.log("jobID: ", jobID);
-  // console.log("companyID: ", job.companyID);
+  console.log("formData: ", formData);
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const safeFormData = {
       ...formData,
-      companyID: String(formData.companyID), // Assuming companyID is the BigInt
-      // Add any other BigInt conversions here if necessary
+      companyID: String(formData.companyID),
     };
     try {
       fetch(`/api/update-job`, {
@@ -92,63 +91,57 @@ const UpdateJobForm = ({ job, jobID }: UpdateJobFormProps) => {
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <FormField
-        jobInfo={job.title}
-        formData={formData}
-        handleChange={handleChange}
-        fieldName="title"
-      />
-      <FormField
-        jobInfo={job.description}
-        formData={formData}
-        handleChange={handleChange}
-        fieldName="description"
-      />
-      <FormField
-        jobInfo={job.companyName}
-        formData={formData}
-        handleChange={handleChange}
-        fieldName="company"
-      />
-      <FormField
-        jobInfo={job.salary}
-        formData={formData}
-        handleChange={handleChange}
-        fieldName="salary"
-      />
-      <FormField
-        jobInfo={job.location}
-        formData={formData}
-        handleChange={handleChange}
-        fieldName="jobPostURL"
-      />
-      <FormField
-        jobInfo={job.jobPostURL}
-        formData={formData}
-        handleChange={handleChange}
-        fieldName="location"
-      />
-      <MultiField
-        jobInfo={job.workType}
-        jobTypes={jobTypes}
-        handleMultiChange={handleMultiChange}
-        fieldName="workType"
-      />
-      <MultiField
-        jobInfo={job.experienceLevel}
-        jobTypes={experienceLevels}
-        handleMultiChange={handleMultiChange}
-        fieldName="experienceLevel"
-      />
-      <Button
-        variant="secondary"
-        className="submit"
-        onClick={() => router.push("/jobs")}
-      >
-        Update Job Posting
-      </Button>
-    </form>
+    <div>
+      <BackButton className="mr-4">Back</BackButton>
+      <form onSubmit={handleFormSubmit}>
+        <FormField
+          jobInfo={job.title}
+          formData={formData}
+          handleChange={handleChange}
+          fieldName="title"
+        />
+        <FormField
+          jobInfo={job.description}
+          formData={formData}
+          handleChange={handleChange}
+          fieldName="description"
+        />
+        <FormField
+          jobInfo={job.companyName}
+          formData={formData}
+          handleChange={handleChange}
+          fieldName="company"
+        />
+        <FormField
+          jobInfo={job.salary}
+          formData={formData}
+          handleChange={handleChange}
+          fieldName="salary"
+        />
+        <FormField
+          jobInfo={job.location}
+          formData={formData}
+          handleChange={handleChange}
+          fieldName="jobPostURL"
+        />
+        <FormField
+          jobInfo={job.jobPostURL}
+          formData={formData}
+          handleChange={handleChange}
+          fieldName="location"
+        />
+        <Button
+          variant="secondary"
+          className="submit"
+          onClick={() => {
+            router.push(`/jobs/${jobID}`);
+            router.refresh();
+          }}
+        >
+          Update Job Posting
+        </Button>
+      </form>
+    </div>
   );
 };
 
