@@ -51,9 +51,6 @@ export default function NavMenu() {
                     </ul>
                   </details>
                 </li>
-                <li>
-                  <Link href="/myjobs">My Jobs</Link>
-                </li>
               </ul>
             </ul>
           </div>
@@ -70,20 +67,19 @@ export default function NavMenu() {
               <details>
                 <summary>Profile</summary>
                 <ul className="p-2 bg-white">
-                  <li>
-                    <h1 className="font-bold">
-                      {session ? session?.user?.name : "Guest"}
-                    </h1>
-                  </li>
+                  <Link href={"/profile"}>
+                    <li>
+                      <h1 className="font-bold">
+                        {session ? session?.user?.name : "Guest"}
+                      </h1>
+                    </li>
+                  </Link>
                   <hr />
                   <li>
                     <a>Submenu 2</a>
                   </li>
                 </ul>
               </details>
-            </li>
-            <li>
-              <Link href="/myjobs">My Jobs</Link>
             </li>
           </ul>
         </div>

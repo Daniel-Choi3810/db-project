@@ -1,38 +1,52 @@
 import PaginationControls from "@/components/common/PaginationControls";
 import JobCard from "@/components/jobs/JobCard";
+import SearchBar from "@/components/jobs/SearchBar";
+import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 import React from "react";
 
 export default async function Jobs({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { query: string; [key: string]: string | string[] | undefined };
 }) {
+  const query = searchParams?.query || "";
   const page = parseInt(searchParams?.page as string) || 1;
   const perPage = parseInt(searchParams?.per_page as string) || 50;
 
-  // Calculate the number of job postings to skip (offset)
   const offset = (page - 1) * perPage;
 
-  // Fetch the paginated job postings directly from the database
-  const jobPostings: any[] = await prisma.$queryRaw`
-    SELECT 
-      JobPostings.*, 
-      Company.name AS companyName 
-    FROM 
-      JobPostings 
-    JOIN 
-      Company ON JobPostings.companyID = Company.companyID
-    LIMIT ${perPage} OFFSET ${offset};
-  `;
+  const whereClause = query
+    ? `WHERE JobPostings.title LIKE '%${query}%' 
+      OR Company.name LIKE '%${query}%' 
+      OR JobPostings.salary LIKE '%${query}%'`
+    : "";
 
-  // Fetch the total count of job postings for pagination controls
+  const jobPostings: any[] = await prisma.$queryRawUnsafe(
+    `SELECT 
+        JobPostings.*, 
+        Company.name AS companyName 
+      FROM 
+        JobPostings 
+      JOIN 
+        Company ON JobPostings.companyID = Company.companyID
+      ${whereClause}
+      LIMIT ${perPage} OFFSET ${offset};`
+  );
+
   const totalPostings: any[] =
     await prisma.$queryRaw`SELECT COUNT(*) as count FROM JobPostings;`;
   const total = totalPostings[0].count;
 
   return (
     <div className="relative flex flex-col justify-center items-center mt-20">
+      <div className="flex items-center space-x-4">
+        <Button variant="secondary" className="px-4 py-2">
+          <Link href={"/jobs/newjob"}>{"New Job"}</Link>
+        </Button>
+        <SearchBar />
+      </div>
       <div className="grid grid-cols-3 gap-4">
         {jobPostings.map((jobPosting: any) => (
           <JobCard
